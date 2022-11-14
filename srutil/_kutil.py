@@ -7,7 +7,8 @@ class KnowledgeUtil:
     @staticmethod
     def briefoflinuxcmd(cmd: str):
         """
-        this functions provide response by scraping the web-contents
+        this functions provide response by scraping the web-contents.
+
         response may contain html elements
         """
         params = {"cmd": cmd}

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import re
+import sys
 import uuid
 import socket
+import subprocess
 import os.path
 from pathlib import Path
-from typing import AnyStr
+from typing import AnyStr, Any
 
 
 class SysUtil:
@@ -27,5 +29,34 @@ class SysUtil:
         return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
 
     @staticmethod
-    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr]):
-        os.system(command=cmd)
+    def myos() -> str | None:
+        os_list = {
+            "darwin": "macOS",
+            **dict.fromkeys(["win32", "cygwin"], "Windows"),
+            "linux": "Linux"
+        }
+        for key, value in os_list.items():
+            if key in sys.platform:
+                return value
+        return None
+
+    @staticmethod
+    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr]) -> int:
+        return subprocess.call(cmd)
+
+    @staticmethod
+    def executesyscmdandreturnitsoutput(cmd: AnyStr | os.PathLike[AnyStr]) -> Any:
+        try:
+            return subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            return e.output.decode("ascii") if isinstance(e.output, bytes) else e.output
+
+    @staticmethod
+    def mkdir(path: str) -> bool:
+        path_parts = Path(path).parts
+        fd = None
+        for part in path_parts:
+            fd = part if not fd else os.path.join(fd, part)
+            if not os.path.exists(fd):
+                os.mkdir(path=fd)
+        return os.path.exists(path)
