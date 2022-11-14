@@ -41,13 +41,13 @@ class SysUtil:
         return None
 
     @staticmethod
-    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr]) -> int:
-        return subprocess.call(cmd)
-
-    @staticmethod
-    def executesyscmdandreturnitsoutput(cmd: AnyStr | os.PathLike[AnyStr]) -> Any:
+    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr], return_output=False) -> Any | None:
+        sp = {"call": subprocess.call, "check_output": subprocess.check_output}
+        process = sp.get("call") if not return_output else sp.get("check_output")
         try:
-            return subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            to_return = process(cmd, stderr=subprocess.STDOUT)
+            if return_output:
+                return to_return
         except subprocess.CalledProcessError as e:
             return e.output.decode("ascii") if isinstance(e.output, bytes) else e.output
 
