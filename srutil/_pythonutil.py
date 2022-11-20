@@ -52,6 +52,13 @@ class PythonUtil:
         return to_return
 
     @staticmethod
+    def paramsofmethod(_callable: callable):
+        """
+        :return: params of given callable.
+        """
+        return inspect.signature(_callable).parameters
+
+    @staticmethod
     def getpackageversion(dist: str) -> str:
         try:
             return get_distribution(dist).version
