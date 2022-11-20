@@ -45,7 +45,7 @@ data = util.from_clipboard()
 To get current time in milliseconds
 ```python
 from srutil import util
-data = util.current_in_millis()
+time_in_millis = util.current_in_millis()
 ```
 
 
