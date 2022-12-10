@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Literal, Any, cast
 from pkg_resources import get_distribution, DistributionNotFound
 
+from ._metautil import Meta
+
 
 class PythonUtil:
     _current_working_dir = os.getcwd()
@@ -15,12 +17,11 @@ class PythonUtil:
     def isobjtype(instance: object, cls: type) -> bool:
         """
         True if `obj` is instanceof `cls`.
-        similar to isinstance()
         """
-        return type(instance) is cls
+        return type(instance) is cls or isinstance(instance, cls)
 
     @staticmethod
-    def getinstanceof(obj: Any, target: object, default=None):
+    def getinstanceof(obj: Any, target: object, default=None) -> object:
         """
         Cast `obj` to `target` type.
         """
@@ -33,7 +34,7 @@ class PythonUtil:
             return to_return
 
     @staticmethod
-    def whoami():
+    def whoami() -> str:
         """
         :return: name of current function/method.
         """
@@ -64,6 +65,16 @@ class PythonUtil:
             return get_distribution(dist).version
         except DistributionNotFound as e:
             return e.__str__()
+
+    @staticmethod
+    def metaclass(_for: Literal['interface', 'singleton']):
+        """
+        Example Usage:
+         class Inter(metaclass=metaclass('singleton'):
+             pass
+        """
+        _meta_class = {'interface': Meta.interface, 'singleton': Meta.singleton}
+        return _meta_class.get(_for)
 
     @staticmethod
     def uploadpackagetopypi(path: str = _current_working_dir, to: Literal["pypi", "testpypi"] = "testpypi",

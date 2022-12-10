@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "srutil"
-version = "1.0.1"
+version = "1.0.2"
 description = "Common Utils."
 readme = "README.md"
 requires-python = ">=3.6"
@@ -18,7 +18,8 @@ dependencies = [
     "pyperclip",
     "wikipedia",
     "speedtest-cli",
-    "beautifulsoup4"
+    "beautifulsoup4",
+    "tabulate"
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
