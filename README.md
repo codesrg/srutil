@@ -15,40 +15,54 @@ Common Utils.
 Few usages of `srutil` package,
 
 To get home directory
+
 ```python
 from srutil import util
+
 home_dir = util.home() 
 ```
 
 ###
+
 To get random number between `6` and `30`
+
 ```python
 from srutil import util
+
 num = util.rand_num(6, 30)
 ```
 
 ###
+
 To check if network is available
+
 ```python
 from srutil import util
+
 is_connected = util.isnetworkconnected()
 ```
 
 ###
+
 To paste data from clipboard
+
 ```python
 from srutil import util
+
 data = util.from_clipboard()
 ```
 
 ###
+
 To get current time in milliseconds
+
 ```python
 from srutil import util
+
 time_in_millis = util.current_in_millis()
 ```
 
-
 ## Issues:
 
-If you encounter any problems, please file an [issue](https://github.com/codesrg/srutil/issues) along with a detailed description.
+If you encounter any problems, please file an [issue](https://github.com/codesrg/srutil/issues) along with a detailed
+description.
