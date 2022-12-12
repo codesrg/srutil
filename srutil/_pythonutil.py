@@ -67,13 +67,14 @@ class PythonUtil:
             return e.__str__()
 
     @staticmethod
-    def metaclass(_for: Literal['interface', 'singleton']):
+    def metaclass(_for: Literal['interface', 'singleton', 'attribute_holder']):
         """
         Example Usage:
          class Inter(metaclass=metaclass('singleton'):
              pass
         """
-        _meta_class = {'interface': Meta.interface, 'singleton': Meta.singleton}
+        _meta_class = {'interface': Meta.interface, 'singleton': Meta.singleton,
+                       'attribute_holder': Meta.attribute_holder}
         return _meta_class.get(_for)
 
     @staticmethod

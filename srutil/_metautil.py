@@ -21,6 +21,39 @@ class MetaSingleton(type):
         return cls._instances[cls]
 
 
+class MetaAttributeHolder(object):
+    """Abstract base class that provides __repr__.
+
+    The __repr__ method returns a string in the format::
+        ClassName(attr=name, attr=name, ...)
+    The attributes are determined either by a class-level attribute,
+    '_kwarg_names', or by inspecting the instance __dict__.
+    """
+
+    def __repr__(self):
+        type_name = type(self).__name__
+        arg_strings = []
+        star_args = {}
+        for arg in self._get_args():
+            arg_strings.append(repr(arg))
+        for name, value in self._get_kwargs():
+            if name.isidentifier():
+                arg_strings.append('%s=%r' % (name, value))
+            else:
+                star_args[name] = value
+        if star_args:
+            arg_strings.append('**%s' % repr(star_args))
+        return '%s(%s)' % (type_name, ', '.join(arg_strings))
+
+    def _get_kwargs(self):
+        return sorted(self.__dict__.items())
+
+    @staticmethod
+    def _get_args():
+        return []
+
+
 class Meta:
     interface = MetaInterface
     singleton = MetaSingleton
+    attribute_holder = MetaAttributeHolder
