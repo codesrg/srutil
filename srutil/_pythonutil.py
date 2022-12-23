@@ -60,6 +60,15 @@ class PythonUtil:
         return inspect.signature(_callable).parameters
 
     @staticmethod
+    def removeunwantedparams(_callable: callable, **kwargs) -> dict:
+        params_of_method = PythonUtil.paramsofmethod(_callable).keys()
+        new_params = dict()
+        for key, value in kwargs.items():
+            if key in params_of_method:
+                new_params.setdefault(key, value)
+        return new_params
+
+    @staticmethod
     def getpackageversion(dist: str) -> str:
         try:
             return get_distribution(dist).version

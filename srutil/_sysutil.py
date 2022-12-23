@@ -8,6 +8,7 @@ import subprocess
 import os.path
 from pathlib import Path
 from typing import AnyStr, Any
+from send2trash import send2trash
 
 
 class SysUtil:
@@ -41,7 +42,26 @@ class SysUtil:
         return None
 
     @staticmethod
-    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr], return_output=False) -> Any | None:
+    def getfilesize(path: AnyStr | os.PathLike[AnyStr]) -> int:
+        """
+        returns size in bytes.
+        """
+        return os.path.getsize(path)
+
+    @staticmethod
+    def delete(path: AnyStr | os.PathLike[AnyStr], permanently: bool = False) -> None:
+        """
+        :param path: file/folder path
+        :param permanently: False will move files/folders to trash, True will delete them permanently
+        :return: None
+        """
+        if not permanently:
+            send2trash(path)
+        else:
+            os.remove(path)
+
+    @staticmethod
+    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr], return_output: bool = False) -> Any | None:
         sp = {"call": subprocess.call, "check_output": subprocess.check_output}
         process = sp.get("call") if not return_output else sp.get("check_output")
         try:
