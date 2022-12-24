@@ -6,7 +6,7 @@ from ._stringutil import StringBuilder
 util = Util()
 
 __author__ = "srg"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 __all__ = [
     'util'
