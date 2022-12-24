@@ -1,21 +1,23 @@
 import re
 
+from ._pythonutil import PythonUtil
 
-class StringBuilder:
+
+class StringBuilder(PythonUtil.metaclass('attribute_holder')):
     def __init__(self):
-        self.__to_return = None
+        self.value = None
 
     def append(self, string: str, separator: str = "") -> "StringBuilder":
         itr = []
-        if self.__to_return:
-            itr.append(self.__to_return)
+        if self.value:
+            itr.append(self.value)
         itr.append(string)
         if string:
-            self.__to_return = separator.join(itr)
+            self.value = separator.join(itr)
         return self
 
     def tostring(self) -> str:
-        return str(self.__to_return) if self.__to_return else ''
+        return str(self.value) if self.value else ''
 
 
 class StringUtil:
