@@ -7,7 +7,7 @@ import socket
 import subprocess
 import os.path
 from pathlib import Path
-from typing import AnyStr, Any
+from typing import AnyStr, Any, Sequence
 from send2trash import send2trash
 
 
@@ -61,7 +61,8 @@ class SysUtil:
             os.remove(path)
 
     @staticmethod
-    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr], return_output: bool = False) -> Any | None:
+    def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr] | Sequence[AnyStr | os.PathLike[AnyStr]],
+                      return_output: bool = False) -> Any | None:
         sp = {"call": subprocess.call, "check_output": subprocess.check_output}
         process = sp.get("call") if not return_output else sp.get("check_output")
         try:
