@@ -3,9 +3,10 @@ from __future__ import annotations
 import re
 import sys
 import uuid
+import shutil
 import socket
-import subprocess
 import os.path
+import subprocess
 from pathlib import Path
 from typing import AnyStr, Any, Sequence
 from send2trash import send2trash
@@ -59,6 +60,10 @@ class SysUtil:
             send2trash(path)
         else:
             os.remove(path)
+
+    @staticmethod
+    def move(source: str, destination: str) -> Any:
+        return shutil.move(src=source, dst=destination)
 
     @staticmethod
     def executesyscmd(cmd: AnyStr | os.PathLike[AnyStr] | Sequence[AnyStr | os.PathLike[AnyStr]],
